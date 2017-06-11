@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zHM-9M-Z3k">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--首页资讯-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="HomeViewController" customModule="es_club" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="首页资讯" id="uhM-fJ-VSd"/>
+                    <connections>
+                        <segue destination="ohw-1D-MAJ" kind="push" identifier="newsID" id="gXf-0M-QVD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2076" y="-755.17241379310349"/>
+        </scene>
+        <!--newsVC-->
+        <scene sceneID="wSE-v9-PdS">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="homeID" storyboardName="HomeStoryboard" referencedIdentifier="newsVC" id="ohw-1D-MAJ" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="1v8-OR-UZm"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ucf-pw-95L" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2849" y="-756"/>
+        </scene>
+        <!--竞猜中心-->
+        <scene sceneID="rlv-g1-NLE">
+            <objects>
+                <viewController id="xmG-6H-1Gq" customClass="GuessViewController" customModule="es_club" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kHJ-bM-jLS"/>
+                        <viewControllerLayoutGuide type="bottom" id="6Pq-aA-Wgk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BvD-jP-KpR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="竞猜中心" id="1Hu-1c-HwG"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SPq-HP-6nK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2076" y="-85.007496251874073"/>
+        </scene>
+        <!--积分商城-->
+        <scene sceneID="MOB-g8-wvh">
+            <objects>
+                <viewController id="4E4-R2-Rg7" customClass="ShopViewController" customModule="es_club" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SgR-f9-HUE"/>
+                        <viewControllerLayoutGuide type="bottom" id="Dg7-2L-iVE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="I1X-q9-2TT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="积分商城" id="B3D-Vn-AcH"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kwz-1v-aHW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2076" y="585.1574212893554"/>
+        </scene>
+        <!--个人中心-->
+        <scene sceneID="uj2-xq-6dg">
+            <objects>
+                <viewController id="3fu-Zl-TiJ" customClass="AccountViewController" customModule="es_club" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WRF-Hw-WWS"/>
+                        <viewControllerLayoutGuide type="bottom" id="n7K-dL-8dL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VGf-yr-27P">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="个人中心" id="YTc-5f-EVX"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ikm-DR-IMd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2076" y="1253.5232383808097"/>
+        </scene>
+        <!--Base Tab Bar Controller-->
+        <scene sceneID="H2P-rO-Rnh">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="zHM-9M-Z3k" customClass="BaseTabBarController" customModule="es_club" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="Whi-0a-DKP">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="GhH-mZ-seF" kind="relationship" relationship="viewControllers" id="o2j-nR-j0r"/>
+                        <segue destination="DBJ-ka-Tao" kind="relationship" relationship="viewControllers" id="QkM-NG-dcR"/>
+                        <segue destination="KdL-Ew-YNm" kind="relationship" relationship="viewControllers" id="ugk-aD-pmh"/>
+                        <segue destination="HJl-aE-jA1" kind="relationship" relationship="viewControllers" id="0GN-Gd-M68"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kFQ-CC-Q71" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="113" y="137"/>
+        </scene>
+        <!--首页-->
+        <scene sceneID="R70-Rh-0my">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="GhH-mZ-seF" customClass="BaseNavController" customModule="es_club" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="首页" image="all" id="PP0-Ud-pRC"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Chl-Mv-SEP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Fa7-5t-Vo5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EDa-Op-dDo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1136.8" y="-755.17241379310349"/>
+        </scene>
+        <!--竞猜-->
+        <scene sceneID="URr-G6-ict">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DBJ-ka-Tao" customClass="BaseNavController" customModule="es_club" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="竞猜" image="process" id="aeW-SW-xxq"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1I5-lo-1oB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="xmG-6H-1Gq" kind="relationship" relationship="rootViewController" id="6vb-j3-hE6"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iiW-Qs-ape" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1136.8" y="-85.007496251874073"/>
+        </scene>
+        <!--商城-->
+        <scene sceneID="MMS-bA-pO8">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KdL-Ew-YNm" customClass="BaseNavController" customModule="es_club" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="商城" image="cart" id="WRO-bf-qUx"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="UjS-vV-Ffy">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="4E4-R2-Rg7" kind="relationship" relationship="rootViewController" id="gCc-4d-LJ4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ecm-mK-cK7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1136.8" y="585.1574212893554"/>
+        </scene>
+        <!--个人中心-->
+        <scene sceneID="x4C-xf-x4q">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HJl-aE-jA1" customClass="BaseNavController" customModule="es_club" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="个人中心" image="account" id="LAu-kO-Im9"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wia-MM-v3w">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="3fu-Zl-TiJ" kind="relationship" relationship="rootViewController" id="ZzP-K4-tj5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PHU-oR-Woy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1136.8" y="1253.5232383808097"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="account" width="15" height="15"/>
+        <image name="all" width="15" height="15"/>
+        <image name="cart" width="15" height="15"/>
+        <image name="process" width="15" height="15"/>
+    </resources>
+</document>
