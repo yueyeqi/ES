@@ -47,3 +47,4 @@ extension UIColor {
     
     class func DefalutColor() -> UIColor {return UIColor().hexStringToColor(hexString: "#14191d")}
 }
+
