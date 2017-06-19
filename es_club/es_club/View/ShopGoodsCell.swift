@@ -22,7 +22,7 @@ class ShopGoodsCell: UITableViewCell {
     var addButton = UIButton(type: .custom)
     var reduceButton = UIButton(type: .custom)
     var currentCountLabel = UILabel()
-    var btnClickBlock: ((Int)->())?
+    var btnClickBlock: ((Int,Int)->())?
     
     var goodsInfoModel: GoodsInfo?
     
@@ -123,16 +123,24 @@ class ShopGoodsCell: UITableViewCell {
     
     func btnClick(btn: UIButton){
         if let m = goodsInfoModel {
+            
+            // type 0 减少  1 添加
+            var type = 0
             if btn.tag == 1  {
+                type = 0
                 //减少商品
                 m.buy_num -= 1
                 if m.buy_num <= 0 {
                     m.buy_num = 0
                     reduceButton.isHidden = true
                     currentCountLabel.isHidden = true
+                    if let b = btnClickBlock {
+                        b(m.buy_num,type)
+                    }
                     return
                 }
             }else{
+                type = 1
                 //添加商品
                 if m.buy_num == 99 {
                     print("已达商品购买上限！")
@@ -144,7 +152,7 @@ class ShopGoodsCell: UITableViewCell {
             }
             currentCountLabel.text = "\(m.buy_num)"
             if let b = btnClickBlock {
-                b(m.buy_num)
+                b(m.buy_num,type)
             }
         }
         

@@ -68,6 +68,14 @@ class ShopViewController: UIViewController {
     var rigthTableView: UITableView!
     var selectGoodsArray = [GoodsInfo]()
     
+    //botomview -sub-views
+    var bottomCarImgView = UIImageView()
+    var bottomNumLabel = UILabel()
+    var bottomTotalMoneyLabel = UILabel()
+    var bottomCommitBtn = UIButton(type: .custom)
+    
+    var total_count = 0 //商品总份数
+    
     var currentSelectTypeIndex = 0
     var isAutoScroll = false
     override func viewDidLoad() {
@@ -176,6 +184,51 @@ class ShopViewController: UIViewController {
             make.height.equalTo(BOTTOM_HEIGHT)
         }
         
+        bottomCarImgView.image = UIImage(named: "es2")
+        bottomCarImgView.layer.cornerRadius = BOTTOM_HEIGHT * 0.5
+        bottomCarImgView.clipsToBounds = true
+        bottomView.addSubview(bottomCarImgView)
+        bottomCarImgView.snp.makeConstraints { (make) in
+            make.left.equalTo(bottomView).offset(CELL_PADDING)
+            make.bottom.equalTo(bottomView).offset(-CELL_PADDING * 0.5)
+            make.width.height.equalTo(BOTTOM_HEIGHT)
+        }
+    
+        
+        bottomNumLabel.isHidden = true
+        bottomNumLabel.textColor = UIColor.white
+        bottomNumLabel.backgroundColor = UIColor.orange
+        bottomNumLabel.font = UIFont.systemFont(ofSize: 8)
+        bottomNumLabel.layer.cornerRadius = 15 * 0.5
+        bottomNumLabel.clipsToBounds = true
+        bottomNumLabel.textAlignment = NSTextAlignment.center
+        bottomView.addSubview(bottomNumLabel)
+        bottomNumLabel.snp.makeConstraints { (make) in
+            make.top.right.equalTo(bottomCarImgView).offset(0)
+            make.width.height.equalTo(15)
+        }
+        
+        bottomTotalMoneyLabel.text = "￥0"
+        bottomTotalMoneyLabel.textColor = UIColor.init(red: 6/255, green: 193/255, blue: 174/255, alpha: 1)
+        bottomView.addSubview(bottomTotalMoneyLabel)
+        bottomTotalMoneyLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(bottomView)
+            make.left.equalTo(bottomCarImgView.snp.right).offset(CELL_PADDING)
+        }
+        bottomCommitBtn.addTarget(self, action: #selector(commitBtnClick), for: .touchUpInside)
+        bottomCommitBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: 5)
+        bottomCommitBtn.setTitle("提交订单", for: .normal)
+        bottomCommitBtn.backgroundColor = UIColor.lightGray
+        bottomCommitBtn.setTitleColor(UIColor.white, for: .normal)
+        bottomView.addSubview(bottomCommitBtn)
+        bottomCommitBtn.snp.makeConstraints { (make) in
+            make.top.bottom.right.equalTo(bottomView)
+            make.width.equalTo(100)
+        }
+    }
+    
+    func commitBtnClick(){
+        print("共点餐\(total_count)份")
     }
     
     
@@ -224,6 +277,25 @@ extension ShopViewController: UITableViewDelegate,UITableViewDataSource {
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: RIGHT_CELL_ID, for: indexPath) as! ShopGoodsCell
             cell.updateData(model: goodsArray[indexPath.section][indexPath.row])
+            cell.btnClickBlock = { (buy_num,clickType) in
+                if clickType == 1 {
+                    //添加
+                    self.total_count += 1
+                }else {
+                    self.total_count -= 1
+                }
+                self.bottomNumLabel.text = "\(self.total_count)"
+                if self.total_count <= 0 {
+                    self.bottomNumLabel.isHidden = true
+                }else{
+                    self.bottomNumLabel.isHidden = false
+                }
+                UIView.animate(withDuration: 0.5, animations: { 
+                    self.bottomCarImgView.transform = CGAffineTransform.init(scaleX: 1.15, y: 1.15)
+                }, completion: { (finish) in
+                    self.bottomCarImgView.transform = CGAffineTransform.identity
+                })
+            }
             return cell
         }
     }
