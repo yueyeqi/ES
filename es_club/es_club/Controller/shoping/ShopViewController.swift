@@ -217,8 +217,8 @@ class ShopViewController: UIViewController {
         }
         bottomCommitBtn.addTarget(self, action: #selector(commitBtnClick), for: .touchUpInside)
         bottomCommitBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: 5)
-        bottomCommitBtn.setTitle("提交订单", for: .normal)
-        bottomCommitBtn.backgroundColor = UIColor.lightGray
+        bottomCommitBtn.backgroundColor = UIColor.init(red: 6/255, green: 193/255, blue: 174/255, alpha: 1)
+        bottomCommitBtn.setTitle("去结算", for: .normal)
         bottomCommitBtn.setTitleColor(UIColor.white, for: .normal)
         bottomView.addSubview(bottomCommitBtn)
         bottomCommitBtn.snp.makeConstraints { (make) in
