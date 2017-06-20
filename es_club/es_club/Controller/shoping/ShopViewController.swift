@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class GoodsType: NSObject {
     var id = 0
     var img = ""
