@@ -23,7 +23,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="首页资讯" id="uhM-fJ-VSd"/>
                     <connections>
-                        <segue destination="ohw-1D-MAJ" kind="push" identifier="newsID" id="gXf-0M-QVD"/>
+                        <segue destination="ohw-1D-MAJ" kind="show" identifier="newsID" id="gXf-0M-QVD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
