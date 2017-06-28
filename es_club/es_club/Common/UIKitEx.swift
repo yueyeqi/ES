@@ -48,3 +48,25 @@ extension UIColor {
     class func DefalutColor() -> UIColor {return UIColor().hexStringToColor(hexString: "#14191d")}
 }
 
+extension UIView {
+    static func initWithDashLine(frame: CGRect,color: UIColor,lenght: Int,space: Int) -> UIView {
+        let lineView = UIView(frame: frame)
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.bounds = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+        shapeLayer.position = CGPoint(x:frame.width / 2, y:0)
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.strokeColor = color.cgColor
+        shapeLayer.lineWidth = frame.height
+        shapeLayer.lineJoin = kCALineJoinRound
+        shapeLayer.lineDashPhase = 0
+        shapeLayer.lineDashPattern = [NSNumber(value: lenght), NSNumber(value: space)]
+        let path:CGMutablePath = CGMutablePath()
+        path.move(to: CGPoint(x: 0, y: frame.height))
+        path.addLine(to: CGPoint(x:frame.width, y: frame.height))
+        shapeLayer.path = path
+        lineView.layer.addSublayer(shapeLayer)
+        return lineView
+        
+    }
+}
+

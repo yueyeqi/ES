@@ -8,96 +8,57 @@
 
 import UIKit
 
-
-class GoodsType: NSObject {
-    var id = 0
-    var img = ""
-    var name = ""
-    
-    override init() {
-        
-    }
-    
-    init(id: NSInteger,img: String,name: String) {
-        self.id = id
-        self.img = img
-        self.name = name
-    }
-}
-
-class GoodsInfo: NSObject {
-    var id = ""
-    var name = ""
-    var cover = ""
-    var month_sale = 0
-    var buy_num = 0
-    var price: Float = 0
-    var type_id = ""
-    
-    override init() {
-        
-    }
-    
-    init(type_id:String,id:String,name:String, cover:String,month_sale:NSInteger,price:Float){
-        self.id = id
-        self.type_id = type_id
-        self.name = name
-        self.cover = cover
-        self.month_sale = month_sale
-        self.price = price
-    }
-    
-    init(type_id:String){
-        self.type_id = type_id
-    }
-}
-
 class ShopViewController: UIViewController {
     
     let LEFT_CELL_ID = "leftcell"
     let RIGHT_CELL_ID = "rightcell"
     let BOTTOM_HEIGHT: CGFloat = 50
-    let CELL_PADDING: CGFloat = 10
     let TOP_HEIGHT: CGFloat = 44
+    let SELECT_CELL_HEIGHT: CGFloat = 44
+    let SELECT_HEADER_HEIGHT: CGFloat = 30
+    let SELECT_FOOTER_HEIGHT: CGFloat = 20
     
     var topView  = UIView()
-    var typeArray: [GoodsType]!
     var middleView = UIView()
     var bottomView = UIView()
-    var goodsArray: [Array<GoodsInfo>]!
+    var goodsArray: [GoodsModel] = []
     var leftTableView: UITableView!
     var rigthTableView: UITableView!
-    var selectGoodsArray = [GoodsInfo]()
+    var selectView: ShopSelectView!
     
     //botomview -sub-views
     var bottomCarImgView = UIImageView()
     var bottomNumLabel = UILabel()
     var bottomTotalMoneyLabel = UILabel()
     var bottomCommitBtn = UIButton(type: .custom)
+    var maskBtn = UIButton(type: .custom)
     
     var total_count = 0 //商品总份数
+    var goodsTypes: [(id:String,name:String,icon:String)]!
     
     var currentSelectTypeIndex = 0
     var isAutoScroll = false
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        goodsArray = [Array<GoodsInfo>]()
-        //初始化测试数据
-        typeArray = [
-            GoodsType(id: 0,img: "es1",name: "热销"),
-            GoodsType(id: 1,img: "es2",name: "酒水"),
-            GoodsType(id: 2,img: "es3",name: "水果"),
-            GoodsType(id: 3,img: "es4",name: "人偶")
-        ]
-        
-        for i in 0 ..< typeArray.count {
-            let type_id = "\(typeArray[i].id)"
-            var goods_arr = [GoodsInfo]()
-            for _ in 0 ..< 20 {
-                goods_arr.append(GoodsInfo(type_id:"\(type_id)",id:"10",name:"小西瓜",cover:"es1",month_sale:20,price:1000.00))
+        goodsTypes = [
+            (id:"1",icon:"es1",name:"热销"),
+            (id:"2",icon:"es2",name:"酒水"),
+            (id:"3",icon:"es3",name:"水果"),
+            (id:"4",icon:"es4",name:"人偶")
+            ]
+        var goodsid = 0
+        for g in goodsTypes {
+            for _ in 0 ..< 10 {
+                let goods = GoodsModel(typeId: g.id, typeName: g.name, typeIcon: g.icon)
+                goodsid += 1
+                goods.id = "\(goodsid)"
+                goods.cover = "es3"
+                goods.name = "大西瓜"
+                goods.monthSale = "22"
+                goods.price = "122"
+                goodsArray.append(goods)
             }
-            goodsArray.append(goods_arr)
         }
         
         loadTopView()
@@ -106,9 +67,83 @@ class ShopViewController: UIViewController {
         
         loadBottomView()
         
+        configSelectView()
+    
+    }
+    
+    func configSelectView(){
         
-
-       
+        maskBtn.addTarget(self, action: #selector(maskBtnClick), for: .touchUpInside)
+        maskBtn.isHidden = true
+        maskBtn.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        view.insertSubview(maskBtn, belowSubview: bottomView)
+        maskBtn.snp.makeConstraints { (make) in
+            make.edges.equalTo(view)
+        }
+        selectView = ShopSelectView.init(frame: CGRect(x: 1, y: 1, width: 1, height: 1))
+        selectView.goodsRemoveBlock = { _ in
+            self.updateSelectViewUI()
+        }
+        selectView.clearBtnClickBlock = { _ in
+            let gs = self.getSelectGoodsModels()
+            for g in gs {
+                g.buyNum = 0
+            }
+            self.total_count = 0
+            self.updateTotalMoney()
+            self.hideSeletView()
+            self.rigthTableView.reloadData()
+        }
+        selectView.changeCountBlock = { (type,buyNum,goodsId) in
+            for g in self.goodsArray {
+                if g.id == goodsId {
+                    g.buyNum = buyNum
+                }
+            }
+            if type == 1 {
+                self.total_count -= 1
+            }else {
+                self.total_count += 1
+            }
+            self.rigthTableView.reloadData()
+            self.updateTotalMoney()
+            
+            if self.getSelectGoodsModels().count == 0 {
+                self.hideSeletView()
+            }
+            
+        }
+        view.insertSubview(selectView, belowSubview: bottomView)
+    }
+    
+    func updateSelectViewUI() {
+        let goodsModels = getSelectGoodsModels()
+        if goodsModels.count > 0 {
+            showSelectView()
+            selectView.updateUIBySelectModels(models: goodsModels)
+            selectView.snp.updateConstraints({ (make) in
+                make.bottom.equalTo(bottomView.snp.top)
+                make.height.equalTo(SELECT_CELL_HEIGHT * CGFloat(goodsModels.count) + SELECT_HEADER_HEIGHT + SELECT_FOOTER_HEIGHT)
+                make.left.right.equalTo(view)
+            })
+        }else {
+            hideSeletView()
+        }
+    }
+    
+    func hideSeletView(){
+        selectView.isHidden = true
+        maskBtn.isHidden = true
+    }
+    
+    func showSelectView(){
+        maskBtn.isHidden = false
+        selectView.isHidden = false
+    }
+    
+    func maskBtnClick(){
+        maskBtn.isHidden = true
+        selectView.isHidden = true
     }
     
     func loadMiddleView(){
@@ -167,6 +202,7 @@ class ShopViewController: UIViewController {
         })
         
         let label = UILabel()
+        label.font = NORMAL_FONT
         label.text = "点菜"
         label.textColor = UIColor.white
         label.textAlignment = NSTextAlignment.center
@@ -174,24 +210,32 @@ class ShopViewController: UIViewController {
         label.snp.makeConstraints { (make) in
             make.edges.equalTo(topView.snp.edges)
         }
-        
     }
     
     func loadBottomView(){
-        bottomView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         view.addSubview(bottomView)
         bottomView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalTo(view)
             make.height.equalTo(BOTTOM_HEIGHT)
         }
+        //毛玻璃效果
+        let effect = UIBlurEffect(style: .dark)
+        let effectView = UIVisualEffectView.init(effect: effect)
+        bottomView.addSubview(effectView)
+        effectView.snp.makeConstraints { (make) in
+            make.edges.equalTo(bottomView.snp.edges)
+        }
         
+        let gr = UITapGestureRecognizer.init(target: self, action: #selector(carClick))
+        bottomCarImgView.addGestureRecognizer(gr)
         bottomCarImgView.image = UIImage(named: "es2")
         bottomCarImgView.layer.cornerRadius = BOTTOM_HEIGHT * 0.5
         bottomCarImgView.clipsToBounds = true
+        bottomCarImgView.isUserInteractionEnabled = true
         bottomView.addSubview(bottomCarImgView)
         bottomCarImgView.snp.makeConstraints { (make) in
-            make.left.equalTo(bottomView).offset(CELL_PADDING)
-            make.bottom.equalTo(bottomView).offset(-CELL_PADDING * 0.5)
+            make.left.equalTo(bottomView).offset(NORMAL_PADDING)
+            make.bottom.equalTo(bottomView).offset(-NORMAL_PADDING * 0.5)
             make.width.height.equalTo(BOTTOM_HEIGHT)
         }
     
@@ -210,11 +254,12 @@ class ShopViewController: UIViewController {
         }
         
         bottomTotalMoneyLabel.text = "￥0"
+        bottomTotalMoneyLabel.font = UIFont.systemFont(ofSize: 17, weight: 3)
         bottomTotalMoneyLabel.textColor = UIColor.init(red: 6/255, green: 193/255, blue: 174/255, alpha: 1)
         bottomView.addSubview(bottomTotalMoneyLabel)
         bottomTotalMoneyLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(bottomView)
-            make.left.equalTo(bottomCarImgView.snp.right).offset(CELL_PADDING)
+            make.left.equalTo(bottomCarImgView.snp.right).offset(NORMAL_PADDING)
         }
         bottomCommitBtn.addTarget(self, action: #selector(commitBtnClick), for: .touchUpInside)
         bottomCommitBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: 5)
@@ -228,10 +273,63 @@ class ShopViewController: UIViewController {
         }
     }
     
-    func commitBtnClick(){
-        print("共点餐\(total_count)份")
+    func carClick(){
+        print("点击购物车")
+        updateSelectViewUI()
+        
+        
     }
     
+    func commitBtnClick(){
+        print("共点餐\(total_count)份")
+        if total_count == 0 {
+            print("请点餐！")
+            return
+        }
+        let sovc = ShopOrderViewController()
+        sovc.goodsModels = getSelectGoodsModels()
+        navigationController?.pushViewController(sovc, animated: true)
+    }
+        
+    func getGoodsArrayByTypeId(typeId: String) -> Array<GoodsModel>{
+        
+        var gArray = [GoodsModel]()
+        for g in goodsArray {
+            if g.typeId == typeId {
+                gArray.append(g)
+            }
+        }
+        return gArray
+    }
+    
+    func calculateTotalMoney() -> Float{
+        var totalMoney:Float = 0
+        for g in goodsArray {
+            let p = g.price == "" ? 0 : Float(g.price)!
+            totalMoney += p * Float(g.buyNum)
+        }
+        return totalMoney
+    }
+    
+    func updateTotalMoney(){
+        
+        let m = calculateTotalMoney()
+        bottomTotalMoneyLabel.text = "￥\(m)"
+        bottomNumLabel.text = "\(total_count)"
+        if m == 0 {
+            bottomNumLabel.isHidden = true
+        }
+    }
+    
+    func getSelectGoodsModels() -> [GoodsModel] {
+        var goodsModels = [GoodsModel]()
+        for g in goodsArray{
+            if g.buyNum > 0 {
+                goodsModels.append(g)
+            }
+        }
+        return goodsModels
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -254,10 +352,10 @@ class ShopViewController: UIViewController {
 extension ShopViewController: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == leftTableView {
-            return typeArray.count
+            return goodsTypes.count
         }else {
             tableView.scrollsToTop = true
-            return goodsArray[section].count
+            return getGoodsArrayByTypeId(typeId: goodsTypes[section].id).count
         }
     
     }
@@ -266,44 +364,47 @@ extension ShopViewController: UITableViewDelegate,UITableViewDataSource {
         if tableView == leftTableView {
             return 1
         }else{
-            return goodsArray.count
+            return goodsTypes.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == leftTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: LEFT_CELL_ID, for: indexPath) as! ShopTypeCell
-            cell.updateData(model: typeArray[indexPath.row])
+            cell.updateData(typeIcon: goodsTypes[indexPath.row].icon, typeName: goodsTypes[indexPath.row].name)
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: RIGHT_CELL_ID, for: indexPath) as! ShopGoodsCell
-            cell.updateData(model: goodsArray[indexPath.section][indexPath.row])
-            cell.btnClickBlock = { (buy_num,clickType) in
-                if clickType == 1 {
-                    //添加
-                    self.total_count += 1
-                }else {
-                    self.total_count -= 1
+
+            let m = getGoodsArrayByTypeId(typeId: goodsTypes[indexPath.section].id)[indexPath.row]
+                cell.updateData(model: m)
+                cell.btnClickBlock = { (clickType,buyNum) in
+                    m.buyNum = buyNum
+                    if clickType == 2 {
+                        //添加
+                        self.total_count += 1
+                    }else {
+                        self.total_count -= 1
+                    }
+                    if self.total_count <= 0 {
+                        self.bottomNumLabel.isHidden = true
+                    }else{
+                        self.bottomNumLabel.isHidden = false
+                    }
+                    self.updateTotalMoney()
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.bottomCarImgView.transform = CGAffineTransform.init(scaleX: 1.15, y: 1.15)
+                    }, completion: { (finish) in
+                        self.bottomCarImgView.transform = CGAffineTransform.identity
+                    })
                 }
-                self.bottomNumLabel.text = "\(self.total_count)"
-                if self.total_count <= 0 {
-                    self.bottomNumLabel.isHidden = true
-                }else{
-                    self.bottomNumLabel.isHidden = false
-                }
-                UIView.animate(withDuration: 0.5, animations: { 
-                    self.bottomCarImgView.transform = CGAffineTransform.init(scaleX: 1.15, y: 1.15)
-                }, completion: { (finish) in
-                    self.bottomCarImgView.transform = CGAffineTransform.identity
-                })
-            }
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if tableView == rigthTableView {
-           return typeArray[section].name
+           return goodsTypes[section].name
         }else{
             return nil
         }

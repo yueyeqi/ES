@@ -13,10 +13,9 @@ class ShopTypeCell: UITableViewCell {
     let TYPE_ROW_HEIGHT = 60
     let TYPE_WIDTH = 100
     let TYPE_ICON_WIDTH = 16
-    let CELL_PADDING = 10
     var iconView = UIImageView()
     var nameLabel = UILabel()
-    var goodsTypeModel: GoodsType?
+//    var goodsTypeModel: GoodsType?
 
     
     override func awakeFromNib() {
@@ -32,7 +31,7 @@ class ShopTypeCell: UITableViewCell {
             selectedBackgroundView?.backgroundColor = UIColor.white
             contentView.addSubview(iconView)
             iconView.snp.makeConstraints({ (make) in
-                make.left.equalTo(contentView).offset(CELL_PADDING)
+                make.left.equalTo(contentView).offset(NORMAL_PADDING)
                 make.width.height.equalTo(TYPE_ICON_WIDTH)
                 make.centerY.equalTo(contentView)
                 make.top.equalTo(contentView).offset( Double(TYPE_ROW_HEIGHT - TYPE_ICON_WIDTH) * 0.5)
@@ -40,18 +39,21 @@ class ShopTypeCell: UITableViewCell {
             })
             
             contentView.addSubview(nameLabel)
+            nameLabel.font = NORMAL_FONT
             nameLabel.snp.makeConstraints({ (make) in
-                make.left.equalTo(iconView.snp.right).offset(CELL_PADDING)
+                make.left.equalTo(iconView.snp.right).offset(NORMAL_PADDING)
                 make.centerY.equalTo(contentView)
             })
+            
+            let view = UIView.initWithDashLine(frame: CGRect(x: 0, y: TYPE_ROW_HEIGHT - 1, width: 100, height: 1), color: NORMAL_COLOR_GRAY, lenght: 3, space: 5)
+            contentView.addSubview(view)
             
         }
     }
     
-    func updateData(model: GoodsType){
-        goodsTypeModel = model
-        iconView.image = UIImage(named: goodsTypeModel!.img)
-        nameLabel.text = goodsTypeModel!.name
+    func updateData(typeIcon:String,typeName:String){
+        iconView.image = UIImage(named: typeIcon)
+        nameLabel.text = typeName
     }
     
     required init?(coder aDecoder: NSCoder) {
