@@ -10,5 +10,5 @@
 #import "MJRefresh.h"
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
-#import "MBProgressHUD.h"
+#import "SVProgressHUD.h"
 #import "UIImageView+WebCache.h"

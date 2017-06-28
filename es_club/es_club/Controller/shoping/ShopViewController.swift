@@ -283,6 +283,7 @@ class ShopViewController: UIViewController {
     func commitBtnClick(){
         print("共点餐\(total_count)份")
         if total_count == 0 {
+            SVProgressHUD.showMsg(msg:"请点餐")
             print("请点餐！")
             return
         }

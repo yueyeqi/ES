@@ -70,3 +70,13 @@ extension UIView {
     }
 }
 
+extension SVProgressHUD {
+   static func showMsg(msg: String){
+        SVProgressHUD.show(nil, status: msg)
+        SVProgressHUD.setDefaultStyle(.dark)
+        SVProgressHUD.dismiss(withDelay: 1)
+        SVProgressHUD.setCornerRadius(5.0)
+    }
+}
+
+
